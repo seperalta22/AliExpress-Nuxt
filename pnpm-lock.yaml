@@ -16,9 +16,6 @@ dependencies:
   '@stripe/stripe-js':
     specifier: ^1.54.0
     version: 1.54.0
-  nuxt-icons:
-    specifier: ^3.2.1
-    version: 3.2.1
   nuxt-lodash:
     specifier: ^2.4.1
     version: 2.4.1
@@ -45,6 +42,9 @@ devDependencies:
   nuxt:
     specifier: ^3.5.2
     version: 3.5.3(@types/node@18.16.16)
+  nuxt-icon:
+    specifier: ^0.4.1
+    version: 0.4.1(vue@3.3.4)
 
 packages:
 
@@ -624,6 +624,19 @@ packages:
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
     dependencies:
       '@hapi/hoek': 9.3.0
+    dev: true
+
+  /@iconify/types@2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+    dev: true
+
+  /@iconify/vue@4.1.1(vue@3.3.4):
+    resolution: {integrity: sha512-RL85Bm/DAe8y6rT6pux7D2FJSiUEM/TPfyK7GrbAOfTSwrhvwJW+S5yijdGcmtXouA8MtuH9C7l4hiSE4mLMjg==}
+    peerDependencies:
+      vue: '>=3'
+    dependencies:
+      '@iconify/types': 2.0.0
+      vue: 3.3.4
     dev: true
 
   /@ioredis/commands@1.2.0:
@@ -5005,14 +5018,16 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /nuxt-icons@3.2.1:
-    resolution: {integrity: sha512-trvAFq9oWYwWEQ0qZDHVxvLK+TwOdFnoXYOXQvN1CRUlp1DBJdxC8vXO3mED2Kb+Suag+bpWLC6eXGrRwhfffQ==}
+  /nuxt-icon@0.4.1(vue@3.3.4):
+    resolution: {integrity: sha512-QTpxewOgLfdPx2uwHhoU5XQ4AtQ9N31ifbwnbn4Sx5NM+W2slNfGq1eEKmUl0CpSUAhGEdKbzd5CjA3c7dVa1Q==}
     dependencies:
+      '@iconify/vue': 4.1.1(vue@3.3.4)
       '@nuxt/kit': 3.5.3
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: false
+      - vue
+    dev: true
 
   /nuxt-lodash@2.4.1:
     resolution: {integrity: sha512-Z1c2eBApJsP4m3RMnZWGDYQ7GiNCrWuLH1PGpLe/7OihjOOtWUN+0sf6NQ9STvUbL4TpXisJ/4hKVns7+wkh4Q==}

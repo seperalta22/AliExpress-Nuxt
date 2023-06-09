@@ -79,7 +79,7 @@ let products = [
 				class="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4"
 			>
 				<div v-if="products" v-for="product in products" key="product">
-					//change products to products.data and :key="product"
+					<!-- change products to products.data and :key="product" -->
 					<ProductCard :product="product" />
 				</div>
 			</div>

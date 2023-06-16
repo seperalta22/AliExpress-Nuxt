@@ -55,7 +55,7 @@ watch(
 
 const stripeInit = async () => {
 	const runtimeConfig = useRuntimeConfig();
-	stripe = Stripe(runtimeConfig.stripePk);
+	stripe = Stripe(String(runtimeConfig.stripePk));
 
 	let res = await $fetch('/api/stripe/paymentintent', {
 		method: 'POST',

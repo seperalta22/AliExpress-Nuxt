@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import MainLayout from '~/layouts/MainLayout.vue';
 import { useUserStore } from '~/store/user';
 const userStore = useUserStore();
@@ -53,7 +53,7 @@ const goToCheckout = () => {
 
 <template>
 	<MainLayout>
-		<div id="ShoppingCartPage" class="mt-4 max-w-[1200px] mx-auto px-2">
+		<div id="ShoppingCartPage" class="mt-4 pb-20 max-w-[1200px] mx-auto px-2">
 			<div
 				v-if="!userStore.cart.length"
 				class="h-[500px] flex items-center justify-center"

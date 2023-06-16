@@ -3,18 +3,42 @@ import { useUserStore } from '~/store/user';
 
 const userStore = useUserStore();
 
-let isAccountMenuOpen = ref(false);
+const client = useSupabaseClient();
+const user = useSupabaseUser();
+
+let isAccountMenu = ref(false);
 let isCartHover = ref(false);
 let isSearching = ref(false);
-let items = ref(null);
 let searchItem = ref('');
-</script>
+let items = ref(null);
 
+const searchByName = useDebounce(async () => {
+	isSearching.value = true;
+	items.value = await useFetch(
+		`/api/prisma/search-by-name/${searchItem.value}`
+	);
+	isSearching.value = false;
+}, 100);
+
+watch(
+	() => searchItem.value,
+	async () => {
+		if (!searchItem.value) {
+			setTimeout(() => {
+				items.value = '';
+				isSearching.value = false;
+				return;
+			}, 500);
+		}
+		searchByName();
+	}
+);
+</script>
 <template>
 	<div id="MainLayout" class="w-full fixed z-50">
-		<div id="TopMenu" class="w-full bg-[#fafafa] border-b md:block hidden">
+		<div id="TopMenu" class="w-full bg-[#FAFAFA] border-b md:block hidden">
 			<ul
-				class="flex items-center justify-end text-xs text-[#333333] font-light px-2 h-10 bg-[#fafafa] max-w-[1200px]"
+				class="flex items-center justify-end text-xs text-[#333333] font-light px-2 h-10 bg-[#FAFAFA] max-w-[1200px]"
 			>
 				<li
 					class="border-r border-r-gray-400 px-3 hover:text-[#FF4646] cursor-pointer"
@@ -41,21 +65,22 @@ let searchItem = ref('');
 					App
 				</li>
 				<li
-					@mouseenter="isAccountMenuOpen = true"
-					@mouseleave="isAccountMenuOpen = false"
+					@mouseenter="isAccountMenu = true"
+					@mouseleave="isAccountMenu = false"
 					class="relative flex items-center px-2.5 hover:text-[#FF4646] h-full cursor-pointer"
 					:class="
-						isAccountMenuOpen
-							? 'bg-white border z-40 shadow-[0_15px_100px_40px_rgba(0,0,0,0.2)]'
+						isAccountMenu
+							? 'bg-white border z-40 shadow-[0_15px_100px_40px_rgba(0,0,0,0.3)]'
 							: 'border border-[#FAFAFA]'
 					"
 				>
 					<Icon name="ph:user-thin" size="17" />
 					Account
 					<Icon name="mdi:chevron-down" size="15" class="ml-5" />
+
 					<div
 						id="AccountMenu"
-						v-if="isAccountMenuOpen"
+						v-if="isAccountMenu"
 						class="absolute bg-white w-[220px] text-[#333333] z-40 top-[38px] -left-[100px] border-x border-b"
 					>
 						<div v-if="!user">
@@ -91,7 +116,6 @@ let searchItem = ref('');
 				</li>
 			</ul>
 		</div>
-
 		<div id="MainHeader" class="flex items-center w-full bg-white">
 			<div
 				class="flex lg:justify-start justify-between gap-10 max-w-[1150px] w-full px-3 py-5 mx-auto"
@@ -99,6 +123,7 @@ let searchItem = ref('');
 				<NuxtLink to="/" class="min-w-[170px]">
 					<img width="170" src="/AliExpress-logo.png" />
 				</NuxtLink>
+
 				<div class="max-w-[700px] w-full md:block hidden">
 					<div class="relative">
 						<div
@@ -164,6 +189,7 @@ let searchItem = ref('');
 						</div>
 					</button>
 				</NuxtLink>
+
 				<button
 					@click="userStore.isMenuOverlay = true"
 					class="md:hidden block rounded-full p-1.5 -mt-[4px] hover:bg-gray-200"
@@ -173,10 +199,11 @@ let searchItem = ref('');
 			</div>
 		</div>
 	</div>
+
 	<Loading v-if="userStore.isLoading" />
 
 	<div class="lg:pt-[150px] md:pt-[130px] pt-[80px]" />
 	<slot />
 
-	<Footer v-if="!userStore.isLoading" />
+	<Footer v-if="!userStore.isLoading" class="absolute bottom-0 w-full" />
 </template>
